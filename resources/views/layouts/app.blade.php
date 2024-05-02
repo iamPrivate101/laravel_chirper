@@ -37,7 +37,8 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.8/sweetalert2.min.js" integrity="sha512-FbWDiO6LEOsPMMxeEvwrJPNzc0cinzzC0cB/+I2NFlfBPFlZJ3JHSYJBtdK7PhMn0VQlCY1qxflEG+rplMwGUg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
     $(document).ready(function () {
@@ -47,8 +48,9 @@
     $(document).on("click", ".confirmDelete", function () {
         // var record = $(this).attr('record');
         var record_id = $(this).attr('record_id');
+        alert(record_id)
         console.log(record_id);
-        var deleteUrl = "{{ route('chirps.destroy', ['chirp' => 'placeholder']) }}/" + record_id;
+        var deleteUrl = "{{ route('chirps.destroy', ['chirp' => '39']) }}/";
 
 
         // Print the URL in the console
@@ -64,16 +66,20 @@
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
+                record_id = $(this).attr('record_id')
 
                 $.ajax({
                     type: 'DELETE',
-                    url: "{{ route('chirps.destroy', ['chirp' => 'destroy']) }}/" + record_id,
+                    // url: "{{ route('chirps.destroy', 34) }}" ,
+                    url: "/chirps/" + record_id ,
+
                     headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                     dataType: 'JSON',
                     success: function (results) {
-                        if (results.success === true) {
+                        console.log(results);
+                        if (results.status == 200) {
                             swal.fire("Done!", results.message, "success");
                             // refresh page after 2 seconds
                             setTimeout(function(){

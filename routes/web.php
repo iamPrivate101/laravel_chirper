@@ -12,6 +12,7 @@ Route::get('/basic-route', function () {
     return "<h1> Basic Route </h1>";
 });
 
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
