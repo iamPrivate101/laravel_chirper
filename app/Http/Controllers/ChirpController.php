@@ -15,7 +15,7 @@ class ChirpController extends Controller
      */
     public function index(): View
     {
-        $chirps = Chirp::with('user')->latest()->get();
+        $chirps = Chirp::with('user')->latest()->paginate(5);
         // dd($chirps);
         return view('chirps.index',[
             'chirps' => $chirps,
@@ -41,6 +41,8 @@ class ChirpController extends Controller
 
         $request->user()->chirps()->create($validated);
 
+        flash()->addSuccess('New Chirp Created Sucessfully!!!');
+
         return redirect(route('chirps.index'));
     }
 
@@ -49,7 +51,7 @@ class ChirpController extends Controller
      */
     public function show(Chirp $chirp)
     {
-        //
+        dd($chirp);
     }
 
     /**
@@ -78,6 +80,8 @@ class ChirpController extends Controller
 
         $chirp->update($validated);
 
+        flash()->addSuccess('Chirp Updated Sucessfully!!!');
+
         return redirect(route('chirps.index'));
     }
 
@@ -86,9 +90,11 @@ class ChirpController extends Controller
      */
     public function destroy(Chirp $chirp): RedirectResponse
     {
-        Gate::authorize('delete', $chirp);
+        // Gate::authorize('delete', $chirp);
 
         $chirp->delete();
+
+        flash()->addSuccess('Chirp Deleted Sucessfully!!!');
 
         return redirect(route('chirps.index'));
     }

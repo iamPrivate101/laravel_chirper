@@ -48,6 +48,11 @@
                                         onclick="event.preventDefault(); this.closest('form').submit();">
                                         {{ __('Delete') }}
                                     </x-dropdown-link>
+
+                                    <x-dropdown-link  class="confirmDelete" record_id="{{$chirp->id}}">
+                                    {{ __('Delete') }}
+                                </x-dropdown-link>
+
                                 </form>
                             </x-slot>
                         </x-dropdown>
@@ -58,6 +63,6 @@
             </div>
             @endforeach
         </div>
-
+        {{ $chirps->links() }}
     </div>
 </x-app-layout>
